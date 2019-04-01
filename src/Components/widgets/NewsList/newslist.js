@@ -6,8 +6,11 @@ import styles from './newslist.css';
 import { CSSTransition , TransitionGroup } from 'react-transition-group';
 import Button from '../Buttons/button'
 
+import CardInfo from '../../widgets/CardInfo/cardinfo';
+
 class NewsList extends Component{
     state={
+        teams:[], 
         items:[],
         start:this.props.start,
         end:this.props.start + this.props.amount,
@@ -18,6 +21,15 @@ class NewsList extends Component{
         this.request(this.state.start,this.state.end);
     }
     request=(start,end)=>{
+        if(this.state.items.length < 1){
+            axios.get(`${URL}/teams`)
+            .then(response=>{
+                this.setState({
+                    teams:response.data
+                })
+            })
+        }
+
         axios.get(`${URL}/articles?_start=${this.state.start}&_end=${this.state.end}`)
         .then(response=>{
             this.setState({
@@ -46,7 +58,8 @@ class NewsList extends Component{
             >
             <div className={styles.newslist_item}>
                     <Link to={`/articles/${item.id}`}>
-                        teams
+                        <CardInfo teams={this.state.teams} team={item.team} date={item.date}/>
+
                         <h2>{item.title}</h2>
 
                     </Link>
@@ -60,7 +73,7 @@ class NewsList extends Component{
         return template;
     }
     render(){
-        console.log(this.state.items);  
+      //  console.log(this.state.teams);  
         return(
             <div>
                 <TransitionGroup
