@@ -40,7 +40,6 @@ class NewsList extends Component{
     
     loadMore=()=>{
         let end = this.state.end + this.state.amount;
-        console.log(end);
         this.request(this.state.end,end) 
     }
     renderNews=(type)=>{
@@ -49,20 +48,18 @@ class NewsList extends Component{
             case('card'):
             template=this.state.items.map((item,i) => (
             <CSSTransition 
-                classNames={{
-                    enter:styles.newsList_wraper,
-                    enterActive:styles.newsList_wrapper_enter
-                }}
-                timeout={500}
-                key={i}
-            >
-            <div className={styles.newslist_item}>
-                    <Link to={`/articles/${item.id}`}>
-                        <CardInfo teams={this.state.teams} team={item.team} date={item.date}/>
-
-                        <h2>{item.title}</h2>
-
-                    </Link>
+                    classNames={{
+                        enter:styles.newsList_wraper,
+                        enterActive:styles.newsList_wrapper_enter
+                    }}
+                    timeout={500}
+                    key={i}
+                >
+                <div className={styles.newslist_item}>
+                        <Link to={`/articles/${item.id}`}>
+                            <CardInfo teams={this.state.teams} team={item.team} date={item.date}/>
+                            <h2>{item.title}</h2>
+                        </Link>
                 </div>
             </CSSTransition>
             ))

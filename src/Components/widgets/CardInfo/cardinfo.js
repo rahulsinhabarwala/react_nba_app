@@ -12,7 +12,6 @@ const CardInfo =(props)=>{
             return data.name
         }
     }
-
     return(
         <div className={styles.cardInfo}>
         <span className={styles.teamName}>
