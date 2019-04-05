@@ -3,7 +3,7 @@ import styles from './videoslist.css';
 import axios from 'axios';
 import {URL} from '../../../config';
 import Button from '../Buttons/button';
-import VideoListTemplate from './VideoListTemplate'
+import VideosListTemplate from './VideoListTemplate'
 
 class VideosList extends Component{
     state={
@@ -17,6 +17,12 @@ class VideosList extends Component{
         return this.props.title ?
         <h3><strong>NBA</strong>Videos</h3>:null
     }
+
+    loadMore=()=>{
+        let end = this.state.start + this.state.amount;
+        this.request(this.state.end,end);
+        }
+
     renderButton=()=>{
         return this.props.loadmore ?
         <Button
@@ -29,43 +35,46 @@ class VideosList extends Component{
         type="linkTo" cta='More Videos' linkTo='/videos'
         />
     }
-    loadMore=()=>{
-
-    }
-    renderVideos=()=>{
+    
+    renderVideos = () => {
         let template = null;
+
         switch(this.props.type){
             case('card'):
-            template=
-            <VideoListTemplate data={this.state.videos} teams={this.state.teams}/>
-            break;
+                template = <VideosListTemplate data={this.state.videos} teams={this.state.teams}/>
+                break;
             default:
-            template = null;
+                template = null;
         }
+        return template;
     }
-
+    
     componentWillMount(){
+        
         this.request(this.state.start, this.state.end)
     }
-    request=(start,end)=>{
+    request = (start,end) => {
         if(this.state.teams.length < 1){
             axios.get(`${URL}/teams`)
-            .then(response=>{
+            .then( response => {
                 this.setState({
                     teams:response.data
                 })
             })
         }
-            axios.get(`${URL}/videos?_start=${start}&_end=${end}`)
-            .then(response => {
-                this.setState({
-                    videos:[...this.state.videos,...response.data]
-                })
+
+        axios.get(`${URL}/videos?_start=${start}&_end=${end}`)
+        .then( response => {
+            this.setState({
+                videos:[...this.state.videos,...response.data],
+                start,
+                end
             })
+        })
     }
 
+
      render(){
-         console.log(this.state.videos)
          return(
              <div className={styles.videoList_wrapper}>
                 {this.renderTitle()}

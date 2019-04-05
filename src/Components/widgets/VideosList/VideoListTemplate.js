@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './videoslist.css';
-
 import { Link } from 'react-router-dom';
 import CardInfo from '../CardInfo/cardinfo';
 
 const VideosListTemplate = (props) => {
+    // console.log(props)
     return props.data.map( (item,i) => (
-         <Link to={`/videos/${item.id}`} key={i}>
+         <Link to={`/videos/${item.id}`} key={item.id}>
             <div className={styles.videoListItem_wrapper}>
                 <div className={styles.left}
                     style={{
@@ -16,13 +16,11 @@ const VideosListTemplate = (props) => {
                     <div></div>
                 </div>
                 <div className={styles.right}>
-                
-                    <CardInfo></CardInfo>
+                <CardInfo teams={props.teams} team={item.team} date={item.date} />
                     <h2>{item.title}</h2>
                 </div>
             </div>
         </Link>
     ))
 }
-
 export default VideosListTemplate;
