@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import styles from './videoslist.css';
 import axios from 'axios';
-import {URL} from '../../../config';
+import { URL } from '../../../config';
 import Button from '../Buttons/button';
 import VideosListTemplate from './VideoListTemplate'
 
@@ -72,7 +72,7 @@ class VideosList extends Component{
             })
         })
     }
-
+ 
 
      render(){
          return(
